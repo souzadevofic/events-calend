@@ -92,7 +92,7 @@ export function SectionLogin() {
 
                         {/* Link de Recuperação de Senha */}
                         <div className="text-center mt-3">
-                            <a href="/forgot-password" className="text-decoration-none">Esqueci minha senha</a>
+                            <a href="#" className="recup-senha text-decoration-none">Esqueci minha senha</a>
                         </div>
                     </form>
                 </div>

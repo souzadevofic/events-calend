@@ -11,29 +11,35 @@ export function SectionCard() {
                     </div>
                     <div className='container-collection'>
                         <div className='collection-1'>
-                            <div className='oferta'>
-                                09:00 às 10:00 28/09/2024
-                            </div>
                             <div className='title-card'>
                                 <h3>Reunião da Qualidade</h3>
+                            </div>
+                            <div className='date'>
+                                <span>
+                                28/09/2024 09:00 às 10:00 
+                                </span>
                             </div>
                             <ButtonCard/>
                         </div>
                         <div className='collection-2'>
-                            <div className='oferta'>
-                            09:00 às 10:00 28/09/2024
-                            </div>
                             <div className='title-card'>
                                 <h3>Siará Tech Summit</h3>
+                            </div>
+                            <div className='date'>
+                            <span>
+                                28/09/2024 09:00 às 10:00 
+                            </span>
                             </div>
                             <ButtonCard/>
                         </div>
                         <div className='collection-3'>
-                            <div className='oferta'>
-                                 09:00 às 10:00 28/09/2024
-                            </div>
                             <div className='title-card'>
                                 <h3>Festa de Fim de Ano</h3>
+                            </div>
+                            <div className='date'>
+                            <span>
+                                28/09/2024 15:00 às 00:00 
+                            </span>
                             </div>
                             <ButtonCard/>
                         </div>

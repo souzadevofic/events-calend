@@ -20,6 +20,7 @@
   width: 450px;
   background: #4F86C6;
   margin-top: 50px;
+  margin-bottom: 40px;
   margin-left: 500px;
   border-radius: 10px;
   box-shadow: 0 15px 40px rgba(0,0,0,0.12);
@@ -122,4 +123,50 @@ section .current-date{
 
 .days li:not(.active):hover::before{
   background: #ffffff;
+}
+
+
+.templete-event {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.templete-event > h2 {
+  font-size: medium;
+} 
+
+.templete-event > .horario {
+  color: #fff;
+  width: 90px;
+  background-color: #2375d3;
+  text-align: center;
+  border-radius: 20px;
+  border: none;
+  margin: 0 ;
+  margin-top: -10px;
+}
+
+.templete-event > .name-event {
+  color: #ffffff;
+  width: 300px;
+  height: 30px;
+  background-color: #2375d3;
+  border-radius: 8px;
+  border: none;
+  margin: 0 ;
+  margin-top: -10px;
+  padding-left: 10px;
+  font-size: 15px;
+}
+
+textarea {
+  color: #ffffff;
+  font-size: 15px;
+  padding-left: 10px;
+  width: 300px;
+  height: 90px;
+  background-color: #2375d3;
+  border: none;
+  border-radius: 8px;
 }

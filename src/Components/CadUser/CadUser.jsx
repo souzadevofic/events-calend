@@ -1,6 +1,6 @@
 import './CadUser.css';
 import { HeaderInicio } from '../HeaderInicio/HeaderInicio.jsx';
-// import { Footer } from '../Footer/Footer.jsx';
+import { Footer } from '../Footer/Footer.jsx';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 export function CadUser() {
@@ -102,7 +102,7 @@ export function CadUser() {
                     </div>
                 </div>
             </div>
-            {/* <Footer/> */}
+            <Footer/>
         </>
     );
 }

@@ -8,6 +8,7 @@ export function HeaderInicio() {
             <div className='logo-inicial'>
                 <Logo/>
             </div>
+                <h2>Agende seus Eventos</h2>
         </header>
         </>
     )
