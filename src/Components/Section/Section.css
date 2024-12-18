@@ -145,9 +145,11 @@ section .current-date{
   border: none;
   margin: 0 ;
   margin-top: -10px;
+  outline: none;
 }
 
 .templete-event > .name-event {
+  outline: none;
   color: #ffffff;
   width: 300px;
   height: 30px;
@@ -161,6 +163,7 @@ section .current-date{
 }
 
 textarea {
+  outline: none;
   color: #ffffff;
   font-size: 15px;
   padding-left: 10px;
