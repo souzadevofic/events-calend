@@ -9,6 +9,7 @@ export function Footer() {
             <div className='text-footer'>
                 <h2>Para o sucesso de seu negócio, conte com as soluções Tokenlab</h2>
             </div>
+            
             <hr />
 
             <div className="data-footer">

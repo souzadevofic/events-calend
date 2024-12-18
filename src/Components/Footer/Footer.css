@@ -14,16 +14,16 @@
 
 .text-footer > h2 {
     color: #ffffff;
-    max-width: 420px;
+    max-width: 900px;
     font-size: 25px;
     line-height: 1.4;
 }
 
 hr {
     width: 90%;
-    border: none;
-    height: 1px;
-    margin: 20px auto;
+    height: 2px;
+    margin: 0px auto;
+    border-color: #fffefe;
 }
 
 .data-footer {
