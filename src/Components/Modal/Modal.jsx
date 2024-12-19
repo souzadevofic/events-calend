@@ -9,16 +9,7 @@ export function Modal({ children, onClose }) {
             <div className="modal-body">
                 {children}
             </div>
-            <div className="container-btn">
-                <button 
-                    type="button" 
-                    className="btn-fechar btn btn-secondary" 
-                    onClick={onClose}
-                >
-                    Fechar
-                </button>
-                <button type="button" className="btn-save btn btn-primary">Salvar</button>
-            </div>
+
         </div>
     </div>
     
