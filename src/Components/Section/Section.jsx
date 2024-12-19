@@ -2,13 +2,16 @@ import React, { useEffect, useState } from 'react';
 import './Section.css';
 import '../../../src/App.css';
 import { Modal } from '../Modal/Modal';
+import { CardTarefas } from '../CardTarefas/CardTarefas';
+import { EventForm } from '../EventForm/EventForm';
 
 export function Section() {
     const [currYear, setCurrYear] = useState(new Date().getFullYear());
     const [currMonth, setCurrMonth] = useState(new Date().getMonth());
     const [days, setDays] = useState([]);
-    const [isModalOpen, setIsModalOpen] = useState(false); // Estado para controlar o modal
-    const [selectedDate, setSelectedDate] = useState(null); // Estado para armazenar a data selecionada
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedDate, setSelectedDate] = useState(null);
+    const [events, setEvents] = useState([]); // Armazena os eventos cadastrados
 
     const months = [
         "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
@@ -31,7 +34,7 @@ export function Section() {
 
         // Dias do mês atual
         for (let i = 1; i <= lastDateOfMonth; i++) {
-            const isToday = i === date.getDate() && currMonth === new Date().getMonth() && currYear === new Date().getFullYear();
+            const isToday = i === date.getDate() && currMonth === date.getMonth() && currYear === date.getFullYear();
             daysArray.push({ day: i, className: isToday ? "active" : "", isCurrentMonth: true });
         }
 
@@ -64,75 +67,82 @@ export function Section() {
         }
     };
 
+    const handleSaveEvent = (eventDetails) => {
+        setEvents((prevEvents) => [...prevEvents, { ...eventDetails, date: selectedDate }]);
+        setIsModalOpen(false); // Fecha o modal após salvar
+    };
+
+    const handleEditEvent = (index, updatedEvent) => {
+        const updatedEvents = [...events];
+        updatedEvents[index] = updatedEvent;
+        setEvents(updatedEvents);
+    };
+
+    const handleDeleteEvent = (index) => {
+        const updatedEvents = events.filter((_, i) => i !== index);
+        setEvents(updatedEvents);
+    };
+
     return (
         <>
-            <div className='title-calend'>
-                <h2>Confira seu Calendário</h2>
-            </div>
-
-            <div className="wrapper">
-                <section>
-                    <p className="current-date">{`${months[currMonth]} ${currYear}`}</p>
-                    <div className="icons">
-                        <span id="prev" className="material-symbols-rounded" onClick={handlePrevMonth}>-</span>
-                        <span id="next" className="material-symbols-rounded" onClick={handleNextMonth}>-</span>
-                    </div>
-                </section>
-
-                <div className="calendar">
-                    <ul className="weeks">
-                        <li>Dom</li>
-                        <li>Seg</li>
-                        <li>Ter</li>
-                        <li>Qua</li>
-                        <li>Qui</li>
-                        <li>Sex</li>
-                        <li>Sab</li>
-                    </ul>
-                    <ul className="days">
-                        {days.map((item, index) => (
-                            <li 
-                                key={index} 
-                                className={item.className} 
-                                onClick={() => handleDayClick(item.day, item.isCurrentMonth)}
-                                style={{ cursor: item.isCurrentMonth ? 'pointer' : 'default' }}
-                            >
-                                {item.day}
-                            </li>
-                        ))}
-                    </ul>
+            <section className='container-calendario-marca'>
+                <div className="title-calend">
+                    <h2>Confira seu Calendário</h2>
                 </div>
-            </div>
 
-            {/* Modal */}
+                <div className="wrapper">
+                    <section>
+                        <p className="current-date">{`${months[currMonth]} ${currYear}`}</p>
+                        <div className="icons">
+                            <span id="prev" className="material-symbols-rounded" onClick={handlePrevMonth}>-</span>
+                            <span id="next" className="material-symbols-rounded" onClick={handleNextMonth}>-</span>
+                        </div>
+                    </section>
+
+                    <div className="calendar">
+                        <ul className="weeks">
+                            <li>Dom</li>
+                            <li>Seg</li>
+                            <li>Ter</li>
+                            <li>Qua</li>
+                            <li>Qui</li>
+                            <li>Sex</li>
+                            <li>Sab</li>
+                        </ul>
+                        <ul className="days">
+                            {days.map((item, index) => (
+                                <li
+                                    key={index}
+                                    className={item.className}
+                                    onClick={() => handleDayClick(item.day, item.isCurrentMonth)}
+                                    style={{ cursor: item.isCurrentMonth ? 'pointer' : 'default' }}
+                                >
+                                    {item.day}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                </div>
+
+            </section>
+
             {isModalOpen && (
                 <Modal onClose={() => setIsModalOpen(false)}>
-                    <div className='templete-event'>
-                        <h3>Criar Evento</h3>
-                        <p>Data selecionada: {selectedDate}</p>
-
-                        <h2>Nome:</h2>
-                        <input className='name-event' type="text" />
-
-                        <h2>Local:</h2>
-                        <input className='name-event' type="text" />
-
-                        <h2>Início:</h2>
-                        <input className='horario' type="time" />
-
-                        <h2>Término:</h2>
-                        <input className='horario' type="time" />
-
-                        <h2>Descrição:</h2>
-                    <textarea name="mensagem"></textarea>
-
-                    </div>
-
+                    <EventForm onSave={handleSaveEvent} />
                 </Modal>
             )}
+
+            <CardTarefas
+                events={events}
+                onEdit={handleEditEvent}
+                onDelete={handleDeleteEvent}
+            />
         </>
     );
 }
 
 export default Section;
+
+
+
 
