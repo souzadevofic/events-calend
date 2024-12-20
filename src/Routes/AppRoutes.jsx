@@ -7,8 +7,8 @@ import { CadUser } from "../Components/CadUser/CadUser"
 export function AppRoutes() {
     return(
         <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/" element={<HomePage/>} /> 
+            <Route path="/" element={<Login />} />
+            <Route path="/home" element={<HomePage/>} /> 
             <Route path="/createAccount" element={<CadUser/>} />
         </Routes>
     )

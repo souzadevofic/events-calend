@@ -1,25 +1,36 @@
-// src/api/api.js
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3000/api'; // Substitua pelo URL da sua API
-
+// Configuração base da API
 const api = axios.create({
-  baseURL: API_URL,
-  headers: {
-    'Content-Type': 'application/json',
-    // Adicione outros cabeçalhos necessários, como Authorization se necessário
-  },
+  baseURL: 'http://localhost:3000/api', // Substitua pelo URL correto da sua API
 });
 
 // Adiciona o token JWT aos cabeçalhos das requisições
-api.interceptors.request.use(config => {
-    const token = localStorage.getItem('jwtToken'); // Supondo que o token esteja armazenado no localStorage
+api.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('jwtToken'); // Supõe que o token seja armazenado no localStorage
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`;
     }
     return config;
-  }, error => {
+  },
+  (error) => {
     return Promise.reject(error);
-  });
+  }
+);
+
+// Trata erros de autenticação (ex: token expirado ou inválido)
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response && error.response.status === 401) {
+      // Redireciona para a tela de login se o token não for válido ou expirou
+      localStorage.removeItem('jwtToken'); // Remove o token inválido
+      window.location.href = '/login'; // Substitua pelo caminho da sua tela de login
+    }
+    return Promise.reject(error);
+  }
+);
 
 export default api;
+
