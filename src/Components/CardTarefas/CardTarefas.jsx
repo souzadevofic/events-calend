@@ -1,25 +1,76 @@
 import './CardTarefas.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
-export function CardTarefas({ events, onEdit, onDelete }) {
+export function CardTarefas({ onEdit, onDelete }) {
+    const [events, setEvents] = useState([]);
     const [editingIndex, setEditingIndex] = useState(null);
     const [editedEvent, setEditedEvent] = useState(null);
 
-    const handleEditClick = (index, event) => {
-        setEditingIndex(index);
-        setEditedEvent(event);
+    // Função para buscar eventos da API
+    const fetchEvents = async () => {
+        try {
+            const response = await axios.get('http://localhost:3000/api/events'); // Substitua pela URL correta da sua API
+            setEvents(response.data);
+        } catch (error) {
+            console.error('Erro ao buscar eventos:', error);
+        }
     };
 
-    const handleSaveClick = () => {
-        onEdit(editingIndex, editedEvent);
-        setEditingIndex(null);
-        setEditedEvent(null);
+    useEffect(() => {
+        fetchEvents();
+    }, []);
+
+    const handleEditClick = (index, event) => {
+        setEditingIndex(index);
+        setEditedEvent({
+            name: event.name,
+            date: event.data.split('T')[0], // Formatação da data para o formato yyyy-mm-dd
+            location: event.local,
+            startTime: event.horarioinicio,
+            endTime: event.horariotermino,
+            description: event.descricao
+        });
+    };
+
+    const handleSaveClick = async () => {
+        try {
+            await axios.put(`http://localhost:3000/api/events/${events[editingIndex].id}`, {
+                name: editedEvent.name,
+                data: editedEvent.date,
+                local: editedEvent.location,
+                horarioinicio: editedEvent.startTime,
+                horariotermino: editedEvent.endTime,
+                descricao: editedEvent.description
+            });
+
+            // Atualiza a lista de eventos localmente sem fazer nova requisição
+            const updatedEvents = [...events];
+            updatedEvents[editingIndex] = {
+                ...events[editingIndex],
+                ...editedEvent
+            };
+            setEvents(updatedEvents);
+
+            // Chama a função onEdit passando os dados atualizados
+            onEdit(editingIndex, editedEvent);
+
+            // Reseta o estado de edição
+            setEditingIndex(null);
+            setEditedEvent(null);
+        } catch (error) {
+            console.error('Erro ao salvar evento:', error);
+        }
     };
 
     const handleCancelClick = () => {
         setEditingIndex(null);
         setEditedEvent(null);
+    };
+
+    const handleAddNewEvent = (newEvent) => {
+        setEvents((prevEvents) => [newEvent, ...prevEvents]); // Adiciona o novo evento no começo da lista
     };
 
     return (
@@ -53,13 +104,13 @@ export function CardTarefas({ events, onEdit, onDelete }) {
                                 </span>
                                 <br />
                                 <span>
-                                    Horário: 
+                                    Horário:
                                     <input
                                         type="time"
                                         value={editedEvent.startTime}
                                         onChange={(e) => setEditedEvent({ ...editedEvent, startTime: e.target.value })}
                                     />
-                                    -
+                                    - 
                                     <input
                                         type="time"
                                         value={editedEvent.endTime}
@@ -83,27 +134,27 @@ export function CardTarefas({ events, onEdit, onDelete }) {
                             </>
                         ) : (
                             <>
-                            <div className='container-card-efetuado'>
-                                <div className='text-conteudo'> 
-                                    <h5>{event.name}</h5>
-                                    <span>Dia: {event.date}</span>
-                                    <br />
-                                    <span>Local: {event.location}</span>
-                                    <br />
-                                    <span>
-                                        Horário: {event.startTime} - {event.endTime}
-                                    </span>
-                                    <p className="card-text">Descrição: {event.description}</p>
+                                <div className='container-card-efetuado'>
+                                    <div className='text-conteudo'>
+                                        <h5>{event.name}</h5>
+                                        <span>Dia: {event.data.split('T')[0]}</span>
+                                        <br />
+                                        <span>Local: {event.local}</span>
+                                        <br />
+                                        <span>
+                                            Horário: {event.horarioinicio} - {event.horariotermino}
+                                        </span>
+                                        <p className="card-text">Descrição: {event.descricao}</p>
+                                    </div>
+                                    <div className='container-btn-card'>
+                                        <button className="btn btn-primary" onClick={() => handleEditClick(index, event)}>
+                                            Editar
+                                        </button>
+                                        <button className="btn btn-danger" onClick={() => onDelete(index)}>
+                                            Excluir
+                                        </button>
+                                    </div>
                                 </div>
-                                <div className='container-btn-card'>
-                                    <button className="btn btn-primary" onClick={() => handleEditClick(index, event)}>
-                                        Editar
-                                    </button>
-                                    <button className="btn btn-danger" onClick={() => onDelete(index)}>
-                                        Excluir
-                                    </button>
-                                </div>
-                            </div>
                             </>
                         )}
                     </div>
@@ -114,5 +165,7 @@ export function CardTarefas({ events, onEdit, onDelete }) {
 }
 
 export default CardTarefas;
+
+
 
 

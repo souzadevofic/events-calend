@@ -25,18 +25,14 @@ export function EventForm({ onSave, selectedDate }) {
     const handleSubmit = async () => {
         if (name && location && startTime && endTime && date) {
             try {
-                // Convertendo a data de volta para o formato dd/mm/aaaa antes de enviar à API
-                const [year, month, day] = date.split('-');
-                const formattedDate = `${day}/${month}/${year}`;
-
-                // Enviando dados para a API
+                // Enviando dados diretamente no formato YYYY-MM-DD
                 const response = await axios.post('http://localhost:3000/api/events', {
                     name,
                     local: location, // Correspondendo ao campo `local` no modelo
                     horarioinicio: startTime,
                     horariotermino: endTime,
                     descricao: description,
-                    data: formattedDate,
+                    data: date, // Não converta a data
                 });
 
                 setSuccessMessage('Evento criado com sucesso!');
