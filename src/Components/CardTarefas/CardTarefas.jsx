@@ -69,6 +69,20 @@ export function CardTarefas({ onEdit, onDelete }) {
         setEditedEvent(null);
     };
 
+    const handleDeleteClick = async (index) => {
+        try {
+            const eventToDelete = events[index];
+            await axios.delete(`http://localhost:3000/api/events/${eventToDelete.id}`); // URL para a API de delete
+            const updatedEvents = events.filter((event, i) => i !== index);
+            setEvents(updatedEvents);
+
+            // Chama a função onDelete passando o evento excluído
+            onDelete(index);
+        } catch (error) {
+            console.error('Erro ao excluir evento:', error);
+        }
+    };
+
     const handleAddNewEvent = (newEvent) => {
         setEvents((prevEvents) => [newEvent, ...prevEvents]); // Adiciona o novo evento no começo da lista
     };
@@ -150,7 +164,7 @@ export function CardTarefas({ onEdit, onDelete }) {
                                         <button className="btn btn-primary" onClick={() => handleEditClick(index, event)}>
                                             Editar
                                         </button>
-                                        <button className="btn btn-danger" onClick={() => onDelete(index)}>
+                                        <button className="btn btn-danger" onClick={() => handleDeleteClick(index)}>
                                             Excluir
                                         </button>
                                     </div>
@@ -165,6 +179,7 @@ export function CardTarefas({ onEdit, onDelete }) {
 }
 
 export default CardTarefas;
+
 
 
 
