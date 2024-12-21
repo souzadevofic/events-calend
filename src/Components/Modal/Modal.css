@@ -30,17 +30,7 @@
     justify-content: center;
     align-items: center;
 }
-.container-btn > .btn-fechar {
-    background-color: #df1a1a;
-    border: none;
-    border-radius: 10px;
-}
 
-.container-btn > .btn-save {
-    background-color: #2375D3;
-    border: none;
-    border-radius: 10px;
-}
 
 @media (max-width: 768px) {
     .modal-content {

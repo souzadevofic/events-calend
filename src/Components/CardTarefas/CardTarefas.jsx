@@ -19,8 +19,8 @@ export function CardTarefas({ onEdit, onDelete }) {
     };
 
     useEffect(() => {
-        fetchEvents();
-    }, []);
+        fetchEvents(); // Busca eventos apenas ao montar o componente
+    }, []); // Lista de dependências vazia para evitar loop infinito
 
     const handleEditClick = (index, event) => {
         setEditingIndex(index);
@@ -72,11 +72,13 @@ export function CardTarefas({ onEdit, onDelete }) {
     const handleDeleteClick = async (index) => {
         try {
             const eventToDelete = events[index];
-            await axios.delete(`http://localhost:3000/api/events/${eventToDelete.id}`); // URL para a API de delete
-            const updatedEvents = events.filter((event, i) => i !== index);
+            await axios.delete(`http://localhost:3000/api/events/${eventToDelete.id}`);
+
+            // Atualiza o estado local
+            const updatedEvents = events.filter((_, i) => i !== index);
             setEvents(updatedEvents);
 
-            // Chama a função onDelete passando o evento excluído
+            // Confirma a exclusão com o callback
             onDelete(index);
         } catch (error) {
             console.error('Erro ao excluir evento:', error);
@@ -84,7 +86,8 @@ export function CardTarefas({ onEdit, onDelete }) {
     };
 
     const handleAddNewEvent = (newEvent) => {
-        setEvents((prevEvents) => [newEvent, ...prevEvents]); // Adiciona o novo evento no começo da lista
+        setEvents((prevEvents) => [newEvent, ...prevEvents]);
+        // Não precisa chamar fetchEvents(); o estado já está atualizado
     };
 
     return (
@@ -179,6 +182,8 @@ export function CardTarefas({ onEdit, onDelete }) {
 }
 
 export default CardTarefas;
+
+
 
 
 

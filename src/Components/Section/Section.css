@@ -155,7 +155,8 @@ section .current-date{
 
 .templete-event > .horario {
   color: #fff;
-  width: 90px;
+  width: 120px;
+  height: 30px;
   background-color: #2375d3;
   text-align: center;
   border-radius: 20px;
