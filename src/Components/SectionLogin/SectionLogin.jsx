@@ -1,40 +1,40 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import do useNavigate
 import './SectionLogin.css';
-// import Facebook from '../../../public/icon-facebook.svg';
-// import Gmail from '../../../public/icon-gmail.svg';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import axios from '../../../services/api.js'; // A instância axios que você já tem configurada
+
+
+// ver depois
+
 
 export function SectionLogin() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
     const [successMessage, setSuccessMessage] = useState('');
+    const navigate = useNavigate(); // Inicializa o hook de navegação
 
     const handleLogin = async (event) => {
         event.preventDefault();
 
+        setError('');
+        setSuccessMessage('');
+
         try {
-            const response = await fetch('http://localhost:3000/api/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ email, password })
+            const response = await axios.post('http://localhost:3000/api/login', {
+                email,
+                password
             });
 
-            if (!response.ok) {
-                const errorData = await response.json();
-                setError(errorData.message);
-                throw new Error('Login falhou');
-            }
-
-            const data = await response.json();
-            localStorage.setItem('token', data.token);
-
+            // Sucesso no login
             setSuccessMessage('Login bem-sucedido!');
+            localStorage.setItem('token', response.data.token); // Salva o token no localStorage
+            navigate('/home'); // Redireciona para a rota "/home"
         } catch (error) {
-            console.error('Erro:', error.message);
-            setError('Erro ao tentar fazer login.');
+            // Caso haja erro
+            console.error('Erro ao fazer login:', error);
+            setError(error.response?.data?.message || 'Erro ao tentar fazer login. Verifique suas credenciais.');
         }
     };
 
@@ -84,15 +84,15 @@ export function SectionLogin() {
                         {/* Botão Submit */}
                         <button type="submit" className="btn-forms btn-primary w-100">Entrar</button>
 
-                        {/* Login de Cadastro */}
+                        {/* Link de Cadastro */}
                         <div className="container-cad text-center mt-4">
                             <span>Ainda não tem cadastro?</span>
-                            <a href="#" className="text-decoration-none">Fazer cadastro</a>
+                            <a href="/cadastro" className="text-decoration-none">Fazer cadastro</a>
                         </div>
 
                         {/* Link de Recuperação de Senha */}
                         <div className="text-center mt-3">
-                            <a href="#" className="recup-senha text-decoration-none">Esqueci minha senha</a>
+                            <a href="/recuperar-senha" className="recup-senha text-decoration-none">Esqueci minha senha</a>
                         </div>
                     </form>
                 </div>
@@ -100,4 +100,3 @@ export function SectionLogin() {
         </section>
     );
 }
-

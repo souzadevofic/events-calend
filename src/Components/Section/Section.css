@@ -17,8 +17,8 @@
 .wrapper{
   display: flex;
   flex-direction: column;
-  width: 400px;
-  background: #4F86C6;
+  width: 500px;
+  background: #d1ddeb;
   border-radius: 10px;
   box-shadow: 0 15px 40px rgba(0,0,0,0.12);
 }
@@ -73,11 +73,13 @@ section .current-date{
   padding: 20px;
 }
 
+/* dia calend */
+
 .calendar ul{
   display: flex;
   flex-wrap: wrap;
   list-style: none;
-  text-align: center;
+  
 }
 
 .calendar .days{
@@ -111,10 +113,11 @@ section .current-date{
   color: #fff;
 }
 
+/* marca azul no dia */
 .days li::before{
   position: absolute;
   content: "";
-  left: 50%;
+  left: 20%; 
   top: 50%;
   height: 40px;
   width: 40px;
@@ -131,6 +134,7 @@ section .current-date{
   background: #ffffff;
 }
 
+/* ---------------------------------- */
 .templete-event > h3  {
   text-align: center;
   color: #2375d3;

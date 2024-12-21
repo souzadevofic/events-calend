@@ -60,9 +60,16 @@ export function Section() {
         setCurrYear((prevYear) => (currMonth === 11 ? prevYear + 1 : prevYear));
     };
 
+    const formatDate = (day, month, year) => {
+        const dayStr = String(day).padStart(2, '0');
+        const monthStr = String(month + 1).padStart(2, '0'); // month + 1 porque os meses são indexados de 0 a 11
+        return `${dayStr}/${monthStr}/${year}`; // Formato dd/mm/aaaa
+    };
+
     const handleDayClick = (day, isCurrentMonth) => {
         if (isCurrentMonth) {
-            setSelectedDate(`${day} ${months[currMonth]} ${currYear}`);
+            const date = formatDate(day, currMonth, currYear);
+            setSelectedDate(date);
             setIsModalOpen(true);
         }
     };
@@ -128,7 +135,7 @@ export function Section() {
 
             {isModalOpen && (
                 <Modal onClose={() => setIsModalOpen(false)}>
-                    <EventForm onSave={handleSaveEvent} />
+                    <EventForm onSave={handleSaveEvent} selectedDate={selectedDate} />
                 </Modal>
             )}
 
@@ -142,7 +149,5 @@ export function Section() {
 }
 
 export default Section;
-
-
 
 
