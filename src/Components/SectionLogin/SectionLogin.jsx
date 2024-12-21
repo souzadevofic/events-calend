@@ -1,13 +1,19 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import do useNavigate
 import './SectionLogin.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import axios from '../../../services/api.js';  // A instância axios que você já tem configurada
+import axios from '../../../services/api.js'; // A instância axios que você já tem configurada
+
+
+// ver depois
+
 
 export function SectionLogin() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
     const [successMessage, setSuccessMessage] = useState('');
+    const navigate = useNavigate(); // Inicializa o hook de navegação
 
     const handleLogin = async (event) => {
         event.preventDefault();
@@ -24,6 +30,7 @@ export function SectionLogin() {
             // Sucesso no login
             setSuccessMessage('Login bem-sucedido!');
             localStorage.setItem('token', response.data.token); // Salva o token no localStorage
+            navigate('/home'); // Redireciona para a rota "/home"
         } catch (error) {
             // Caso haja erro
             console.error('Erro ao fazer login:', error);
@@ -93,5 +100,3 @@ export function SectionLogin() {
         </section>
     );
 }
-
-
